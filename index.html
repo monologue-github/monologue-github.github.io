@@ -1,30 +1,886 @@
+```html
 <!DOCTYPE html>
-	<head>
-		<script src="https://fastly.jsdelivr.net/gh/stevenjoezhang/live2d-widget@latest/autoload.js"></script>
-		<style>
-        body {
-            background-image:url('/imgs/background.png');
-            background-size: cover;
-            background-position: center center;
-            background-repeat: no-repeat;
-            background-attachment: fixed;
-            backdrop-filter: blur(20px);
-            text-align: center;
-            margin: 0 auto;
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Monologue · Personal Website</title>
+    <meta name="description" content="Monologue 的个人主页、项目与联系方式">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
-		</style>
-		<meta charset="utf-8">
-		<title>Monologue home - 欢迎来到我的博客！</title>
-	</head>
-	<body>
-        <img src="/imgs/头像.jpg" alt="头像" height="120" width="120"></br>
-		<h1>Monologue的博客</h1></br>
-		<a href="./moto">moto XT389折腾小记</a>
-    </body>
-    </div>
+
+        :root {
+            --glass: rgba(255, 255, 255, 0.12);
+            --glass-hover: rgba(255, 255, 255, 0.18);
+            --border: rgba(255, 255, 255, 0.22);
+            --text: #ffffff;
+            --muted: rgba(255, 255, 255, 0.68);
+            --accent: #dca7ff;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            min-height: 100vh;
+            font-family:
+                -apple-system,
+                BlinkMacSystemFont,
+                "Segoe UI",
+                "PingFang SC",
+                "Microsoft YaHei",
+                sans-serif;
+            color: var(--text);
+
+            background:
+                linear-gradient(
+                    rgba(20, 8, 35, 0.18),
+                    rgba(20, 8, 35, 0.35)
+                ),
+                url("https://img2.wallspic.com/attachments/crops/8/5/8/7/7/177858/177858-purple-pink-violet-material_property-magenta-3840x2160.jpg")
+                center / cover fixed no-repeat;
+
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            z-index: -2;
+            background: rgba(30, 8, 50, 0.12);
+        }
+
+        body::after {
+            content: "";
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            pointer-events: none;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        .container {
+            width: min(1120px, calc(100% - 40px));
+            margin: 0 auto;
+        }
+
+        /* ==================== 导航 ==================== */
+
+        nav {
+            position: fixed;
+            top: 18px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 100;
+
+            width: min(1080px, calc(100% - 30px));
+            padding: 12px 18px;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            background: rgba(20, 15, 30, 0.32);
+            border: 1px solid var(--border);
+            border-radius: 18px;
+
+            backdrop-filter: blur(22px) saturate(150%);
+            -webkit-backdrop-filter: blur(22px) saturate(150%);
+
+            box-shadow:
+                0 10px 40px rgba(0, 0, 0, 0.18),
+                inset 0 1px 0 rgba(255, 255, 255, 0.12);
+        }
+
+        .logo {
+            font-size: 18px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        .logo span {
+            color: var(--accent);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 8px;
+        }
+
+        .nav-links a {
+            padding: 8px 13px;
+            border-radius: 10px;
+            color: var(--muted);
+            font-size: 14px;
+            transition: 0.25s;
+        }
+
+        .nav-links a:hover {
+            color: white;
+            background: rgba(255,255,255,0.1);
+        }
+
+        /* ==================== Hero ==================== */
+
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 130px 0 80px;
+        }
+
+        .hero-content {
+            max-width: 800px;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+
+            padding: 8px 13px;
+            margin-bottom: 22px;
+
+            border: 1px solid var(--border);
+            border-radius: 999px;
+
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+
+            color: rgba(255,255,255,0.82);
+            font-size: 13px;
+        }
+
+        .badge::before {
+            content: "";
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: #8dffb0;
+            box-shadow: 0 0 12px #8dffb0;
+        }
+
+        h1 {
+            font-size: clamp(48px, 9vw, 92px);
+            line-height: 0.98;
+            letter-spacing: -4px;
+            margin-bottom: 25px;
+            text-shadow: 0 8px 40px rgba(0,0,0,0.25);
+        }
+
+        h1 .gradient {
+            background: linear-gradient(
+                110deg,
+                #ffffff,
+                #e7c9ff 45%,
+                #ffb4dd
+            );
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .hero-description {
+            max-width: 680px;
+            color: var(--muted);
+            font-size: 18px;
+            line-height: 1.8;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 12px;
+            margin-top: 32px;
+            flex-wrap: wrap;
+        }
+
+        .button {
+            padding: 13px 20px;
+            border-radius: 13px;
+            border: 1px solid var(--border);
+
+            background: rgba(255,255,255,0.12);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+
+            font-size: 14px;
+            transition: 0.25s;
+        }
+
+        .button.primary {
+            background: rgba(255,255,255,0.9);
+            color: #24112f;
+            border-color: rgba(255,255,255,0.9);
+            font-weight: 600;
+        }
+
+        .button:hover {
+            transform: translateY(-3px);
+            background: rgba(255,255,255,0.2);
+        }
+
+        .button.primary:hover {
+            background: white;
+        }
+
+        /* ==================== 通用 ==================== */
+
+        section {
+            padding: 90px 0;
+        }
+
+        .section-title {
+            margin-bottom: 35px;
+        }
+
+        .section-title small {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--accent);
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .section-title h2 {
+            font-size: clamp(30px, 5vw, 46px);
+            letter-spacing: -1.5px;
+        }
+
+        .section-title p {
+            margin-top: 12px;
+            color: var(--muted);
+            line-height: 1.7;
+        }
+
+        .glass {
+            background: var(--glass);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+
+            backdrop-filter: blur(22px) saturate(140%);
+            -webkit-backdrop-filter: blur(22px) saturate(140%);
+
+            box-shadow:
+                0 20px 60px rgba(0,0,0,0.16),
+                inset 0 1px 0 rgba(255,255,255,0.12);
+        }
+
+        /* ==================== About ==================== */
+
+        .about-card {
+            padding: 35px;
+            display: grid;
+            grid-template-columns: 1.4fr 1fr;
+            gap: 40px;
+        }
+
+        .about-card h3 {
+            font-size: 24px;
+            margin-bottom: 15px;
+        }
+
+        .about-card p {
+            color: var(--muted);
+            line-height: 1.9;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .stat {
+            padding: 22px;
+            border-radius: 17px;
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.12);
+        }
+
+        .stat strong {
+            display: block;
+            font-size: 28px;
+            margin-bottom: 5px;
+        }
+
+        .stat span {
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        /* ==================== Projects ==================== */
+
+        .projects {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .project {
+            overflow: hidden;
+            transition: 0.3s;
+        }
+
+        .project:hover {
+            transform: translateY(-6px);
+            background: var(--glass-hover);
+        }
+
+        .project-image {
+            height: 220px;
+            overflow: hidden;
+            background: rgba(255,255,255,0.05);
+        }
+
+        .project-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: 0.5s;
+        }
+
+        .project:hover img {
+            transform: scale(1.05);
+        }
+
+        .project-content {
+            padding: 25px;
+        }
+
+        .project-tag {
+            display: inline-block;
+            padding: 5px 9px;
+            margin-bottom: 12px;
+
+            border-radius: 7px;
+            background: rgba(220,167,255,0.14);
+            color: #e9caff;
+            font-size: 11px;
+        }
+
+        .project h3 {
+            font-size: 22px;
+            margin-bottom: 10px;
+        }
+
+        .project p {
+            color: var(--muted);
+            line-height: 1.7;
+            font-size: 14px;
+        }
+
+        .project-link {
+            display: inline-block;
+            margin-top: 18px;
+            color: white;
+            font-size: 14px;
+        }
+
+        .project-link:hover {
+            color: var(--accent);
+        }
+
+        /* ==================== Technology ==================== */
+
+        .tech-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .tech {
+            padding: 10px 15px;
+            border-radius: 12px;
+            background: rgba(255,255,255,0.09);
+            border: 1px solid rgba(255,255,255,0.14);
+            color: rgba(255,255,255,0.82);
+            font-size: 13px;
+        }
+
+        /* ==================== Contact ==================== */
+
+        .contact-card {
+            padding: 40px;
+            text-align: center;
+        }
+
+        .contact-card h2 {
+            font-size: clamp(30px, 5vw, 44px);
+            margin-bottom: 12px;
+        }
+
+        .contact-card p {
+            color: var(--muted);
+            margin-bottom: 30px;
+        }
+
+        .contact-links {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .contact-link {
+            padding: 13px 18px;
+            border: 1px solid var(--border);
+            border-radius: 13px;
+            background: rgba(255,255,255,0.08);
+            transition: 0.25s;
+            font-size: 14px;
+        }
+
+        .contact-link:hover {
+            transform: translateY(-3px);
+            background: rgba(255,255,255,0.18);
+        }
+
+        /* ==================== Footer ==================== */
+
+        footer {
+            padding: 30px 0 45px;
+            color: rgba(255,255,255,0.45);
+            text-align: center;
+            font-size: 13px;
+        }
+
+        /* ==================== Mobile ==================== */
+
+        @media (max-width: 750px) {
+
+            .container {
+                width: min(100% - 26px, 1120px);
+            }
+
+            nav {
+                top: 10px;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .hero {
+                padding-top: 130px;
+            }
+
+            h1 {
+                letter-spacing: -2px;
+            }
+
+            .hero-description {
+                font-size: 16px;
+            }
+
+            .about-card {
+                grid-template-columns: 1fr;
+                padding: 25px;
+            }
+
+            .projects {
+                grid-template-columns: 1fr;
+            }
+
+            .project-image {
+                height: 200px;
+            }
+
+            .contact-card {
+                padding: 30px 20px;
+            }
+
+            section {
+                padding: 65px 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ==================== Navigation ==================== -->
+
+    <nav>
+        <a href="#" class="logo">
+            Monologue<span>.</span>
+        </a>
+
+        <div class="nav-links">
+            <a href="#about">关于</a>
+            <a href="#projects">项目</a>
+            <a href="#tech">技术</a>
+            <a href="#contact">联系</a>
+        </div>
+    </nav>
+
+
+    <!-- ==================== Hero ==================== -->
+
+    <main>
+
+        <section class="hero">
+            <div class="container">
+
+                <div class="hero-content">
+
+                    <div class="badge">
+                        Building things, breaking things, learning things.
+                    </div>
+
+                    <h1>
+                        Hi, I'm<br>
+                        <span class="gradient">Monologue.</span>
+                    </h1>
+
+                    <p class="hero-description">
+                        一个喜欢折腾代码、量化、AI 和硬件的开发者。
+                        正在做一些有意思的东西，也喜欢把想法真正变成可以运行的项目。
+                    </p>
+
+                    <div class="hero-buttons">
+
+                        <a href="#projects" class="button primary">
+                            查看项目 →
+                        </a>
+
+                        <a
+                            href="https://github.com/monologue-github"
+                            target="_blank"
+                            rel="noopener"
+                            class="button"
+                        >
+                            GitHub ↗
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+        </section>
+
+
+        <!-- ==================== About ==================== -->
+
+        <section id="about">
+            <div class="container">
+
+                <div class="section-title">
+                    <small>About</small>
+                    <h2>关于我</h2>
+                    <p>
+                        不太喜欢只停留在想法阶段，更喜欢直接把东西做出来。
+                    </p>
+                </div>
+
+                <div class="about-card glass">
+
+                    <div>
+
+                        <h3>Make ideas real.</h3>
+
+                        <p>
+                            我主要折腾 Python、AI、量化分析、Web 和嵌入式设备。
+                            从股票预测算法，到 Raspberry Pi / Orange Pi 上运行的系统，
+                            再到自己的 GUI / Web 工具，喜欢不断尝试新的东西。
+                        </p>
+
+                        <br>
+
+                        <p>
+                            有时候项目并不完美，但能跑起来、能验证自己的想法，
+                            对我来说本身就是很有意思的事情。
+                        </p>
+
+                    </div>
+
+                    <div class="stats">
+
+                        <div class="stat">
+                            <strong>AI</strong>
+                            <span>模型与 Agent</span>
+                        </div>
+
+                        <div class="stat">
+                            <strong>Quant</strong>
+                            <span>量化与回测</span>
+                        </div>
+
+                        <div class="stat">
+                            <strong>Python</strong>
+                            <span>主要开发语言</span>
+                        </div>
+
+                        <div class="stat">
+                            <strong>DIY</strong>
+                            <span>硬件与系统折腾</span>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+        </section>
+
+
+        <!-- ==================== Projects ==================== -->
+
+        <section id="projects">
+            <div class="container">
+
+                <div class="section-title">
+                    <small>Projects</small>
+                    <h2>我的项目</h2>
+                    <p>
+                        一些正在做或者已经做出来的东西。
+                    </p>
+                </div>
+
+                <div class="projects">
+
+
+                    <!-- 股票形态预测 -->
+
+                    <article class="project glass">
+
+                        <div class="project-image">
+
+                            <img
+                                src="https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?auto=format&fit=crop&w=1200&q=80"
+                                alt="Stock market chart"
+                            >
+
+                        </div>
+
+                        <div class="project-content">
+
+                            <span class="project-tag">
+                                STOCK · AI · PYTHON
+                            </span>
+
+                            <h3>
+                                股票形态预测
+                            </h3>
+
+                            <p>
+                                基于历史形态相似度匹配、多维数据融合、
+                                技术指标与回测验证构建的股票预测分析工具，
+                                提供 GUI、CLI 与 Web 使用方式。
+                            </p>
+
+                            <a
+                                href="https://orangepizero2w-1.tail6a6cc8.ts.net/"
+                                target="_blank"
+                                rel="noopener"
+                                class="project-link"
+                            >
+                                打开项目 →
+                            </a>
+
+                        </div>
+
+                    </article>
+
+
+                    <!-- AI Quant -->
+
+                    <article class="project glass">
+
+                        <div class="project-image">
+
+                            <img
+                                src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1200&q=80"
+                                alt="Data analysis dashboard"
+                            >
+
+                        </div>
+
+                        <div class="project-content">
+
+                            <span class="project-tag">
+                                QUANT · ETF · AI
+                            </span>
+
+                            <h3>
+                                AI Quant 模拟盘
+                            </h3>
+
+                            <p>
+                                场外 ETF 量化模拟交易系统，
+                                集成 AI 决策、信号分析、风险控制、
+                                数据缓存与自动化运行。
+                            </p>
+
+                            <a
+                                href="https://orangepizero2w-1.tail6a6cc8.ts.net/quant/"
+                                target="_blank"
+                                rel="noopener"
+                                class="project-link"
+                            >
+                                打开模拟盘 →
+                            </a>
+
+                        </div>
+
+                    </article>
+
+                </div>
+
+            </div>
+        </section>
+
+
+        <!-- ==================== Technology ==================== -->
+
+        <section id="tech">
+
+            <div class="container">
+
+                <div class="section-title">
+                    <small>Stack</small>
+                    <h2>正在折腾的技术</h2>
+                </div>
+
+                <div class="glass" style="padding: 30px;">
+
+                    <div class="tech-list">
+
+                        <span class="tech">Python</span>
+                        <span class="tech">HTML / CSS / JS</span>
+                        <span class="tech">GitHub</span>
+                        <span class="tech">AI Agent</span>
+                        <span class="tech">LLM</span>
+                        <span class="tech">Quantitative Trading</span>
+                        <span class="tech">Backtesting</span>
+                        <span class="tech">Raspberry Pi</span>
+                        <span class="tech">Orange Pi</span>
+                        <span class="tech">Docker</span>
+                        <span class="tech">Linux</span>
+                        <span class="tech">OpenClaw</span>
+                        <span class="tech">API</span>
+                        <span class="tech">SQLite</span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ==================== Contact ==================== -->
+
+        <section id="contact">
+
+            <div class="container">
+
+                <div class="contact-card glass">
+
+                    <h2>Let's connect.</h2>
+
+                    <p>
+                        如果你想交流项目、技术或者只是聊点有意思的东西，可以找到我。
+                    </p>
+
+                    <div class="contact-links">
+
+                        <!-- QQ -->
+
+                        <a
+                            href="https://user.qzone.qq.com/2180287399/infocenter"
+                            target="_blank"
+                            rel="noopener"
+                            class="contact-link"
+                        >
+                            QQ
+                        </a>
+
+
+                        <!-- Google Email -->
+
+                        <a
+                            href="mailto:kingrux106@gmail.com"
+                            class="contact-link"
+                        >
+                            Email
+                        </a>
+
+
+                        <!-- GitHub -->
+
+                        <a
+                            href="https://github.com/monologue-github"
+                            target="_blank"
+                            rel="noopener"
+                            class="contact-link"
+                        >
+                            GitHub
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- ==================== Footer ==================== -->
+
+    <footer>
+
+        <div class="container">
+            © 2026 Monologue. Built with HTML & CSS.
+        </div>
+
+    </footer>
+
+
+    <script>
+
+        const nav = document.querySelector("nav");
+
+        window.addEventListener("scroll", () => {
+
+            if (window.scrollY > 40) {
+
+                nav.style.background =
+                    "rgba(20, 15, 30, 0.52)";
+
+            } else {
+
+                nav.style.background =
+                    "rgba(20, 15, 30, 0.32)";
+
+            }
+
+        });
+
+    </script>
+
+</body>
 </html>
+```
+
